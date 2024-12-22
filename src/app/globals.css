@@ -102,16 +102,27 @@ nav.bg-white {
 
 @media (max-width: 768px) {
   .fixed.bottom-0 {
-    max-height: 60px;
+    max-height: 120px; /* Increased from 60px */
+    padding: 0.75rem 0; /* Add some vertical padding */
   }
   
-  .fixed.bottom-0 .py-2 {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
+  .fixed.bottom-0 .grid {
+    grid-template-columns: 1fr 1fr; /* Force 2 columns layout */
+    gap: 0.5rem; /* Add some gap between items */
   }
   
-  .fixed.bottom-0 .text-sm {
+  .fixed.bottom-0 .flex-col > * {
+    margin-bottom: 0.25rem; /* Add space between stacked elements */
+  }
+  
+  .fixed.bottom-0 .text-xs {
     font-size: 0.75rem;
+    line-height: 1rem;
+  }
+  
+  .fixed.bottom-0 .text-lg {
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 }
 

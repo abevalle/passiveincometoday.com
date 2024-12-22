@@ -1,0 +1,94 @@
+{
+  "tested-real-estate-investment-strategy": {
+    "slug": "tested-real-estate-investment-strategy",
+    "title": "Tested Real Estate Investment Strategy",
+    "description": "Master the art of real estate investing with our comprehensive guide. Learn proven strategies for identifying profitable properties, securing financing, and maximizing ROI.",
+    "image": "/TestResiREStrat.webp",
+    "originalPrice": 197,
+    "price": 65,
+    "features": [
+      "Property valuation techniques",
+      "Investment risk assessment",
+      "Tax optimization strategies",
+      "Rental income maximization",
+      "Property management best practices"
+    ],
+    "testimonials": [
+      {
+        "name": "Michael R.",
+        "role": "Real Estate Investor",
+        "text": "This guide helped me secure my first investment property with confidence. The ROI calculator alone saved me from a bad investment.",
+        "image": "/testimonials/michael.webp"
+      }
+    ]
+  },
+  "the-agentic-income-era": {
+    "slug": "the-agentic-income-era",
+    "title": "The Agentic Income Era",
+    "description": "Discover how to leverage AI and automation to create sustainable income streams in the new digital economy.",
+    "image": "/agentic-era.webp",
+    "originalPrice": 247,
+    "price": 70,
+    "features": [
+      "AI tool integration",
+      "Automation workflows",
+      "Digital asset creation",
+      "Passive income strategies",
+      "Market opportunity identification"
+    ],
+    "testimonials": [
+      {
+        "name": "Sarah L.",
+        "role": "Digital Entrepreneur",
+        "text": "This guide opened my eyes to the possibilities of AI-driven income. I've already implemented several strategies with great success.",
+        "image": "/testimonials/sarah.webp"
+      }
+    ]
+  },
+  "leveraging-digital-assets": {
+    "slug": "leveraging-digital-assets",
+    "title": "Leveraging Digital Assets",
+    "description": "Learn how to build, manage, and monetize digital assets for long-term passive income generation.",
+    "image": "/business-guide.webp",
+    "originalPrice": 147,
+    "price": 45,
+    "features": [
+      "Digital asset valuation",
+      "Portfolio management",
+      "Monetization strategies",
+      "Risk mitigation",
+      "Growth optimization"
+    ],
+    "testimonials": [
+      {
+        "name": "David K.",
+        "role": "Portfolio Manager",
+        "text": "The strategies in this guide helped me diversify my portfolio into digital assets with confidence.",
+        "image": "/testimonials/david.webp"
+      }
+    ]
+  },
+  "strategic-funding-guide": {
+    "slug": "strategic-funding-guide",
+    "title": "Strategic Funding Guide",
+    "description": "Master the art of securing funding for your investments and business ventures.",
+    "image": "/How-to-get-funding.webp",
+    "originalPrice": 197,
+    "price": 65,
+    "features": [
+      "Funding source identification",
+      "Proposal creation",
+      "Negotiation tactics",
+      "Risk assessment",
+      "Financial planning"
+    ],
+    "testimonials": [
+      {
+        "name": "Jennifer M.",
+        "role": "Business Owner",
+        "text": "This guide walked me through the entire funding process. I secured my first major investment using these strategies.",
+        "image": "/testimonials/jennifer.webp"
+      }
+    ]
+  }
+}

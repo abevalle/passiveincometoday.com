@@ -48,7 +48,7 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
-            {['Home', 'ROI Calculator', 'Guides', 'Tools'].map((item) => (
+            {['Home', 'Guides', 'Tools'].map((item) => (
               <Link
                 key={item}
                 href={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
@@ -93,13 +93,6 @@ export default function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               Home
-            </Link>
-            <Link 
-              href="/tools/rental-property-roi" 
-              className="block px-3 py-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-blue-50"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              ROI Calculator
             </Link>
             <Link 
               href="/guides" 

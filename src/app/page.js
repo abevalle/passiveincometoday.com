@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main>
       {/* Hero Section */}
-      <div className="relative hero-section">
+      <div className="relative hero-section h-[60vh] md:h-screen">
         <Image
           src="/hero.webp"
           alt="Passive Income Journey"
@@ -13,16 +13,16 @@ export default function Home() {
           className="object-cover brightness-50"
           priority
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4 md:p-8">
+          <h1 className="text-3xl sm:text-4xl md:text-7xl font-bold mb-4 md:mb-6 px-2 leading-tight break-words">
             PassiveIncomeToday.com
           </h1>
-          <p className="text-xl md:text-2xl max-w-2xl mb-8">
+          <p className="text-lg md:text-2xl max-w-2xl mb-6 md:mb-8 px-4">
             Start Your Passive Income Journey Today, Reap the Rewards Tomorrow
           </p>
           <Link 
             href="/tools"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 md:py-3 md:px-8 rounded-lg text-base md:text-lg transition-colors"
           >
             Explore Our Tools
           </Link>
@@ -51,26 +51,27 @@ export default function Home() {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Premium Guides</h2>
-          <div className="max-w-2xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center">
             <p className="text-xl text-gray-600 mb-8">
               Detailed, actionable guides to help you build sustainable passive income streams.
               Start your journey today, build your future tomorrow.
             </p>
             
             {/* PDF Preview Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
               {[
                 { title: 'Real Estate Investing', image: '/TestResiREStrat.webp' },
                 { title: 'Agentic Strategy', image: '/agentic-era.webp' },
-                { title: 'Online Assets', image: '/business-guide.webp' }
+                { title: 'Online Assets', image: '/business-guide.webp' },
+                { title: 'Aquiring Funding', image: '/How-to-get-funding.webp' },
               ].map((guide) => (
                 <div key={guide.title} className="relative group cursor-pointer">
                   <Image
                     src={guide.image}
                     alt={guide.title}
-                    width={200}
-                    height={282}
-                    className="rounded-lg shadow-md transition-transform group-hover:scale-105"
+                    width={180}
+                    height={254}
+                    className="w-full rounded-lg shadow-md transition-transform group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <span className="text-white font-semibold text-sm">{guide.title}</span>
