@@ -2,8 +2,117 @@
 @tailwind components;
 @tailwind utilities;
 
-.footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+}
+
+/* Mobile-first responsive design */
+@media (max-width: 640px) {
+  .container {
+    padding-bottom: 80px; /* Space for sticky summary */
+  }
+}
+
+/* Form styles */
+input[type="number"],
+input[type="text"],
+select {
+  appearance: none;
+  transition: all 0.2s;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input:disabled {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+}
+
+/* Improved checkbox styles */
+input[type="checkbox"] {
+  @apply rounded border-gray-300;
+}
+
+/* Sticky summary styles */
+@media (max-width: 768px) {
+  .container {
+    padding-bottom: 100px; /* Increased space for two-line sticky summary */
+  }
+
+  /* Smooth transition for sticky summary */
+  .fixed {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .fixed.hidden {
+    transform: translateY(100%);
+  }
+}
+
+/* Enhanced form transitions */
+.max-h-0 {
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.max-h-[1000px] {
+  transition: max-height 0.5s ease-in;
+}
+
+/* Improved input styles */
+input[type="number"],
+input[type="text"] {
+  @apply transition-all duration-200;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus {
+  @apply outline-none ring-2 ring-blue-500 border-transparent;
+}
+
+/* Enhanced disabled state */
+input:disabled {
+  @apply bg-gray-100 cursor-not-allowed;
+}
+
+/* Navbar styles */
+.nav-link-active {
+  @apply text-blue-600;
+}
+
+/* Navbar transition styles */
+nav {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+nav.bg-white {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Adjust the hero section to account for fixed navbar */
+.hero-section {
+  height: calc(100vh - 4rem);
+  min-height: 600px;
+  margin-top: 0;
 }
