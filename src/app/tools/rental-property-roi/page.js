@@ -461,7 +461,7 @@ export default function RentalPropertyROI() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 pt-20"> {/* Added mt-16 for navbar height */}
       <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Rental Property ROI Calculator</h1>
 
       {showStickySummary && (
