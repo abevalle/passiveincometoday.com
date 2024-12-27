@@ -13,8 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "PassiveIncomeToday - Start Your Passive Income Journey",
+  title: {
+    default: "PassiveIncomeToday - Start Your Passive Income Journey",
+    template: "%s | PassiveIncomeToday"
+  },
   description: "Calculate your potential returns and learn how to build passive income streams.",
+  metadataBase: new URL('https://passiveincometoday.com'),
 };
 
 export default function RootLayout({ children }) {

@@ -48,7 +48,7 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
-            {['Home', 'Guides', 'Tools'].map((item) => (
+            {['Home', 'Guides', 'Resources'].map((item) => (
               <Link
                 key={item}
                 href={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
@@ -102,11 +102,11 @@ export default function Navbar() {
               Guides
             </Link>
             <Link 
-              href="/tools" 
+              href="/resources" 
               className="block px-3 py-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-blue-50"
               onClick={() => setIsMenuOpen(false)}
             >
-              Tools
+              Resources
             </Link>
           </div>
         </div>
