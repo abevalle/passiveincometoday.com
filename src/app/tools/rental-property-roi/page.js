@@ -4,8 +4,6 @@ import { useState, useEffect, useRef, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import dynamic from 'next/dynamic';
 import { createRoot } from 'react-dom/client';
-import ReportCustomization from './ReportCustomization';
-import ReportPreview from './ReportPreview';
 
 // Create a dynamic import for html2pdf to avoid SSR issues
 const html2pdf = dynamic(() => import('html2pdf.js'), { ssr: false });
@@ -915,25 +913,8 @@ const ItemizedSummary = ({ units, propertySettings, customExpenses }) => {
 
 const SelectPropertiesModal = ({ isOpen, onClose, savedProperties, onGenerateReport }) => {
   const [selectedProperties, setSelectedProperties] = useState([]);
-  const [step, setStep] = useState('select'); // select, customize, preview, loading, payment, download
-  const [loadingMessage, setLoadingMessage] = useState('');
-  const [printOptions, setPrintOptions] = useState({
-    individualReports: false,
-    includeUtilities: true,
-    includeProjections: true,
-    theme: 'modern',
-    color: 'blue',
-    customizations: {
-      includeLogo: false,
-      includeFooter: true,
-      includePageNumbers: true,
-      includeTimestamp: true,
-      companyName: '',
-      companyContact: '',
-      reportTitle: 'Real Estate Portfolio Analysis',
-      customNotes: ''
-    }
-  });
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState(null);
 
   const handlePropertyToggle = (property) => {
     if (selectedProperties.includes(property)) {
@@ -943,41 +924,28 @@ const SelectPropertiesModal = ({ isOpen, onClose, savedProperties, onGenerateRep
     }
   };
 
-  const handleNext = () => {
+  const handleGenerateReport = async () => {
     if (selectedProperties.length === 0) return;
-    setStep('customize');
-  };
-
-  const handleCustomizationNext = () => {
-    setStep('preview');
-  };
-
-  const handlePreviewNext = () => {
-    setStep('loading');
     
-    // Simulate loading with different messages
-    const messages = [
-      'Analyzing property data...',
-      'Calculating portfolio metrics...',
-      'Applying custom styling...',
-      'Generating detailed reports...',
-      'Preparing portfolio summary...'
-    ];
+    try {
+      setIsGenerating(true);
+      setError(null);
+      
+      // Basic print options - keeping only essential settings
+      const printOptions = {
+        includeTimestamp: true,
+        includePageNumbers: true,
+        reportTitle: 'Real Estate Portfolio Analysis'
+      };
 
-    let messageIndex = 0;
-    const interval = setInterval(() => {
-      setLoadingMessage(messages[messageIndex]);
-      messageIndex++;
-      if (messageIndex === messages.length) {
-        clearInterval(interval);
-        setStep('payment');
-      }
-    }, Math.random() * 500 + 300);
-  };
-
-  const handlePayment = () => {
-    setStep('download');
-    onGenerateReport(selectedProperties, printOptions);
+      await onGenerateReport(selectedProperties, printOptions);
+      onClose();
+    } catch (err) {
+      setError('Failed to generate report. Please try again.');
+      console.error('Report generation error:', err);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -1006,212 +974,70 @@ const SelectPropertiesModal = ({ isOpen, onClose, savedProperties, onGenerateRep
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white p-6 shadow-xl transition-all">
-                {/* Progress Steps */}
-                <div className="mb-8">
-                  <div className="flex justify-between">
-                    {['Properties', 'Customize', 'Preview', 'Generate', 'Download'].map((stepName, index) => (
-                      <div key={stepName} className="flex items-center">
-                        <div className={`flex items-center justify-center w-8 h-8 rounded-full ${
-                          ['select', 'customize', 'preview', 'loading', 'payment', 'download'].indexOf(step) >= index
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-gray-200 text-gray-600'
-                        }`}>
-                          {index + 1}
-                        </div>
-                        <span className="ml-2 font-medium text-sm">{stepName}</span>
-                        {index < 4 && (
-                          <div className="mx-4 h-0.5 w-12 bg-gray-200" />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 shadow-xl transition-all">
+                <Dialog.Title as="h3" className="text-2xl font-medium mb-4">
+                  Generate Portfolio Report
+                </Dialog.Title>
+                
+                <p className="text-gray-600 mb-6">
+                  Select the properties you want to include in your portfolio analysis report.
+                </p>
 
-                {step === 'select' && (
-                  <>
-                    <Dialog.Title as="h3" className="text-2xl font-medium mb-4">
-                      Select Properties for Portfolio Report
-                    </Dialog.Title>
-                    <p className="text-gray-600 mb-6">
-                      Choose the properties you want to include in your portfolio analysis report.
-                      This report will provide detailed insights into your combined property investments.
-                    </p>
-                    <div className="space-y-3 mb-6">
-                      {savedProperties.map((property, index) => (
-                        <label
-                          key={index}
-                          className="flex items-center p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors"
-                        >
-                          <input
-                            type="checkbox"
-                            checked={selectedProperties.includes(property)}
-                            onChange={() => handlePropertyToggle(property)}
-                            className="w-5 h-5 rounded border-gray-300 text-blue-500 focus:ring-blue-500"
-                          />
-                          <div className="ml-3">
-                            <h4 className="font-medium">{property.name}</h4>
-                            <p className="text-sm text-gray-500">
-                              {property.data.units.length} units
-                              {property.data.propertySettings.mortgagePayment > 0 && 
-                                ` • ${(property.data.units.reduce((sum, unit) => sum + unit.rent, 0) / 
-                                property.data.propertySettings.mortgagePayment * 100).toFixed(1)}% mortgage coverage`
-                              }
-                            </p>
-                          </div>
-                        </label>
-                      ))}
-                    </div>
-                    <div className="flex justify-end gap-3">
-                      <button
-                        onClick={onClose}
-                        className="px-4 py-2 text-gray-600 hover:text-gray-900"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={handleNext}
-                        disabled={selectedProperties.length === 0}
-                        className="px-6 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        Next
-                      </button>
-                    </div>
-                  </>
-                )}
-
-                {step === 'customize' && (
-                  <>
-                    <Dialog.Title as="h3" className="text-2xl font-medium mb-4">
-                      Customize Report
-                    </Dialog.Title>
-                    <p className="text-gray-600 mb-6">
-                      Personalize your report with custom branding and choose which details to include.
-                    </p>
-                    <div className="max-h-[60vh] overflow-y-auto mb-6">
-                      <ReportCustomization
-                        printOptions={printOptions}
-                        setPrintOptions={setPrintOptions}
+                <div className="space-y-3 mb-6">
+                  {savedProperties.map((property, index) => (
+                    <label
+                      key={index}
+                      className="flex items-center p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedProperties.includes(property)}
+                        onChange={() => handlePropertyToggle(property)}
+                        className="w-5 h-5 rounded border-gray-300 text-blue-500 focus:ring-blue-500"
                       />
-                    </div>
-                    <div className="flex justify-end gap-3">
-                      <button
-                        onClick={() => setStep('select')}
-                        className="px-4 py-2 text-gray-600 hover:text-gray-900"
-                      >
-                        Back
-                      </button>
-                      <button
-                        onClick={handleCustomizationNext}
-                        className="px-6 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors"
-                      >
-                        Preview Report
-                      </button>
-                    </div>
-                  </>
-                )}
-
-                {step === 'preview' && (
-                  <>
-                    <Dialog.Title as="h3" className="text-2xl font-medium mb-4">
-                      Preview Report
-                    </Dialog.Title>
-                    <p className="text-gray-600 mb-6">
-                      Preview how your report will look with the selected customizations.
-                    </p>
-                    <div className="max-h-[60vh] overflow-y-auto mb-6">
-                      <ReportPreview
-                        printOptions={printOptions}
-                        properties={selectedProperties}
-                      />
-                    </div>
-                    <div className="flex justify-end gap-3">
-                      <button
-                        onClick={() => setStep('customize')}
-                        className="px-4 py-2 text-gray-600 hover:text-gray-900"
-                      >
-                        Back
-                      </button>
-                      <button
-                        onClick={handlePreviewNext}
-                        className="px-6 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors"
-                      >
-                        Generate Report
-                      </button>
-                    </div>
-                  </>
-                )}
-
-                {step === 'loading' && (
-                  <div className="py-12 text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                    <p className="text-gray-600">{loadingMessage}</p>
-                  </div>
-                )}
-
-                {step === 'payment' && (
-                  <>
-                    <Dialog.Title as="h3" className="text-2xl font-medium mb-4">
-                      Generate Portfolio Report
-                    </Dialog.Title>
-                    <div className="bg-blue-50 p-6 rounded-xl mb-6">
-                      <p className="text-blue-800 mb-2">Premium Feature</p>
-                      <p className="text-gray-600">
-                        Generate detailed portfolio reports with custom branding and styling.
-                        You can generate up to 3 reports per day.
-                      </p>
-                    </div>
-                    <div className="flex justify-end gap-3">
-                      <button
-                        onClick={onClose}
-                        className="px-4 py-2 text-gray-600 hover:text-gray-900"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={handlePayment}
-                        className="px-6 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors"
-                      >
-                        Generate Report
-                      </button>
-                    </div>
-                  </>
-                )}
-
-                {step === 'download' && (
-                  <>
-                    <Dialog.Title as="h3" className="text-2xl font-medium mb-4">
-                      Download Your Report
-                    </Dialog.Title>
-                    <div className="text-center py-12">
-                      <div className="mb-8">
-                        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <svg className="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                        </div>
-                        <h4 className="text-lg font-medium mb-2">Your report is ready!</h4>
-                        <p className="text-gray-600">
-                          Your portfolio analysis report has been generated and is ready for download.
+                      <div className="ml-3">
+                        <h4 className="font-medium">{property.name}</h4>
+                        <p className="text-sm text-gray-500">
+                          {property.data.units.length} units
+                          {property.data.propertySettings.mortgagePayment > 0 && 
+                            ` • ${(property.data.units.reduce((sum, unit) => sum + unit.rent, 0) / 
+                            property.data.propertySettings.mortgagePayment * 100).toFixed(1)}% mortgage coverage`
+                          }
                         </p>
                       </div>
-                      <div className="flex justify-center gap-3">
-                        <button
-                          onClick={onClose}
-                          className="px-4 py-2 text-gray-600 hover:text-gray-900"
-                        >
-                          Close
-                        </button>
-                        <button
-                          onClick={() => onGenerateReport(selectedProperties, printOptions)}
-                          className="px-6 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors"
-                        >
-                          Download PDF
-                        </button>
-                      </div>
-                    </div>
-                  </>
+                    </label>
+                  ))}
+                </div>
+
+                {error && (
+                  <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-xl">
+                    {error}
+                  </div>
                 )}
+
+                <div className="flex justify-end gap-3">
+                  <button
+                    onClick={onClose}
+                    className="px-4 py-2 text-gray-600 hover:text-gray-900"
+                    disabled={isGenerating}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleGenerateReport}
+                    disabled={selectedProperties.length === 0 || isGenerating}
+                    className="px-6 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    {isGenerating ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                        Generating...
+                      </>
+                    ) : (
+                      'Generate Report'
+                    )}
+                  </button>
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -1507,13 +1333,6 @@ export default function RentalPropertyROI() {
               onDelete={handleDeleteProperty}
             />
           </div>
-
-          {savedProperties.length > 0 && (
-            <MultiPropertyProjections 
-              savedProperties={savedProperties}
-              currentProperty={getCurrentPropertyData()}
-            />
-          )}
         </div>
       </div>
 

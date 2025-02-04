@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import VIPSignup from '@/components/VIPSignup';
 
 const resources = {
   subreddits: [
@@ -130,6 +131,20 @@ export default function Resources() {
                 <p className="text-gray-600 mt-2">{resource.description}</p>
               </a>
             ))}
+          </div>
+        </section>
+
+        {/* VIP Signup Section */}
+        <section className="mb-16 bg-gradient-to-br from-blue-50 to-indigo-50 -mx-4 px-4 py-12 rounded-2xl">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-semibold mb-4">Get Exclusive Resources</h2>
+              <p className="text-gray-600">
+                Join our VIP list to receive additional curated resources, early access to new tools, 
+                and exclusive discounts on our premium guides.
+              </p>
+            </div>
+            <VIPSignup />
           </div>
         </section>
 
