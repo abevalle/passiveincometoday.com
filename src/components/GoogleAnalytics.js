@@ -4,19 +4,24 @@ import Script from 'next/script'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { pageview, GA_MEASUREMENT_ID } from '@/utils/analytics'
+import { Suspense } from 'react'
 
-export default function GoogleAnalytics() {
+function GoogleAnalyticsContent() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    if (pathname) {
-      pageview(pathname + searchParams.toString())
-    }
+    const url = pathname + searchParams.toString()
+    pageview(url)
   }, [pathname, searchParams])
 
+  return null
+}
+
+export default function GoogleAnalytics() {
   return (
-    <>
+    <Suspense fallback={null}>
+      <GoogleAnalyticsContent />
       <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
@@ -36,6 +41,6 @@ export default function GoogleAnalytics() {
           `,
         }}
       />
-    </>
+    </Suspense>
   )
 } 

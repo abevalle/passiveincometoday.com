@@ -57,7 +57,7 @@ export default function Navbar() {
     <nav 
       className={`fixed w-full z-50 transition-all duration-300 ${
         isScrolled || isMenuOpen 
-          ? 'bg-white shadow-md' 
+          ? 'bg-white dark:bg-[rgb(28,28,30)] shadow-md dark:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.2)]' 
           : 'bg-gradient-to-b from-black/50 to-black/0'
       }`}
       role="navigation"
@@ -68,7 +68,9 @@ export default function Navbar() {
           <Link 
             href="/" 
             className={`font-bold text-xl transition-colors ${
-              isScrolled || !isHome ? 'text-blue-600' : 'text-white'
+              isScrolled || !isHome 
+                ? 'text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)]' 
+                : 'text-white'
             }`}
             aria-label="PassiveIncomeToday Home"
           >
@@ -81,13 +83,15 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.path}
-                className={`hover:text-blue-600 transition-colors relative group ${
-                  isScrolled || !isHome ? 'text-gray-700' : 'text-white'
+                className={`hover:text-[rgb(0,122,255)] dark:hover:text-[rgb(10,132,255)] transition-colors relative group ${
+                  isScrolled || !isHome 
+                    ? 'text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]' 
+                    : 'text-white'
                 } ${pathname === item.path ? 'font-semibold' : ''}`}
                 aria-current={pathname === item.path ? 'page' : undefined}
               >
                 {item.name}
-                <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full ${
+                <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-[rgb(0,122,255)] dark:bg-[rgb(10,132,255)] transition-all group-hover:w-full ${
                   pathname === item.path ? 'w-full' : ''
                 }`} />
               </Link>
@@ -96,8 +100,10 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <button 
-            className={`md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors ${
-              isScrolled || !isHome ? 'text-gray-700' : 'text-white'
+            className={`md:hidden p-2 rounded-lg hover:bg-[rgb(242,242,247)] dark:hover:bg-[rgb(44,44,46)] transition-colors ${
+              isScrolled || !isHome 
+                ? 'text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]' 
+                : 'text-white'
             }`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-expanded={isMenuOpen}
@@ -132,13 +138,15 @@ export default function Navbar() {
               : 'max-h-0 opacity-0 pointer-events-none'
           }`}
         >
-          <div className="px-2 pt-2 pb-3 space-y-1 bg-white">
+          <div className="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-[rgb(28,28,30)]">
             {MENU_ITEMS.map((item) => (
               <Link 
                 key={item.name}
                 href={item.path}
-                className={`block px-3 py-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors ${
-                  pathname === item.path ? 'bg-blue-50 text-blue-600' : ''
+                className={`block px-3 py-2 rounded-md text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] hover:text-[rgb(0,122,255)] dark:hover:text-[rgb(10,132,255)] hover:bg-[rgb(242,242,247)] dark:hover:bg-[rgb(44,44,46)] transition-colors ${
+                  pathname === item.path 
+                    ? 'bg-[rgb(242,242,247)] dark:bg-[rgb(44,44,46)] text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)]' 
+                    : ''
                 }`}
                 aria-current={pathname === item.path ? 'page' : undefined}
               >

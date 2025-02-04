@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import dynamic from 'next/dynamic';
 import { createRoot } from 'react-dom/client';
+import VIPSignup from '@/components/VIPSignup';
 
 // Create a dynamic import for html2pdf to avoid SSR issues
 const html2pdf = dynamic(() => import('html2pdf.js'), { ssr: false });
@@ -133,12 +134,12 @@ const SaveLoadForm = ({ onSave, savedProperties, onLoad, onDelete }) => {
   };
 
   return (
-    <div className="bg-white/80 backdrop-blur-lg p-8 rounded-2xl shadow-sm border border-gray-100 mb-6 print:hidden">
+    <div className="bg-white/80 dark:bg-[rgb(28,28,30)]/80 backdrop-blur-lg p-8 rounded-2xl shadow-sm border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] mb-6 print:hidden">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-medium">Save/Load Properties</h2>
+        <h2 className="text-2xl font-medium text-[rgb(0,0,0)] dark:text-white">Save/Load Properties</h2>
         <button
           onClick={handleNew}
-          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] bg-[rgb(0,122,255)]/10 dark:bg-[rgb(10,132,255)]/10 hover:bg-[rgb(0,122,255)]/20 dark:hover:bg-[rgb(10,132,255)]/20 rounded-xl transition-colors"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
@@ -153,12 +154,12 @@ const SaveLoadForm = ({ onSave, savedProperties, onLoad, onDelete }) => {
           placeholder={isUpdating ? "Update Property Name" : "Property Name"}
           value={saveName}
           onChange={(e) => setSaveName(e.target.value)}
-          className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          className="flex-1 px-4 py-3 bg-white dark:bg-[rgb(44,44,46)] border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[rgb(0,122,255)] dark:focus:ring-[rgb(10,132,255)] transition-all text-[rgb(0,0,0)] dark:text-white placeholder-[rgb(99,99,102)] dark:placeholder-[rgb(174,174,178)]"
         />
         <div className="flex gap-2">
           <button 
             type="submit"
-            className="px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors font-medium"
+            className="px-6 py-3 bg-[rgb(0,122,255)] dark:bg-[rgb(10,132,255)] hover:bg-[rgb(0,122,255)]/90 dark:hover:bg-[rgb(10,132,255)]/90 text-white rounded-xl transition-colors font-medium"
           >
             {isUpdating ? 'Update' : 'Save'}
           </button>
@@ -166,7 +167,7 @@ const SaveLoadForm = ({ onSave, savedProperties, onLoad, onDelete }) => {
             <button 
               type="button"
               onClick={cancelUpdate}
-              className="px-6 py-3 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition-colors font-medium"
+              className="px-6 py-3 bg-[rgb(242,242,247)] dark:bg-[rgb(44,44,46)] text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] rounded-xl hover:bg-[rgb(229,229,234)] dark:hover:bg-[rgb(58,58,60)] transition-colors font-medium"
             >
               Cancel
             </button>
@@ -176,14 +177,14 @@ const SaveLoadForm = ({ onSave, savedProperties, onLoad, onDelete }) => {
 
       {savedProperties.length > 0 && (
         <div className="space-y-3">
-          <h3 className="text-lg font-medium mb-4">Saved Properties</h3>
+          <h3 className="text-lg font-medium mb-4 text-[rgb(0,0,0)] dark:text-white">Saved Properties</h3>
           {savedProperties.map((prop, index) => (
-            <div key={index} className="flex items-center justify-between p-4 bg-gray-50/80 backdrop-blur-sm rounded-xl group">
-              <span className="font-medium">{prop.name}</span>
+            <div key={index} className="flex items-center justify-between p-4 bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm rounded-xl group">
+              <span className="font-medium text-[rgb(0,0,0)] dark:text-white">{prop.name}</span>
               <div className="flex gap-3">
                 <button
                   onClick={() => handleLoadAndEdit(prop)}
-                  className="text-blue-500 hover:text-blue-700 font-medium transition-colors flex items-center gap-2"
+                  className="text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] hover:text-[rgb(0,64,221)] dark:hover:text-[rgb(64,156,255)] font-medium transition-colors flex items-center gap-2"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -192,7 +193,7 @@ const SaveLoadForm = ({ onSave, savedProperties, onLoad, onDelete }) => {
                 </button>
                 <button
                   onClick={() => onDelete(prop.name)}
-                  className="text-red-500 hover:text-red-700 font-medium transition-colors opacity-0 group-hover:opacity-100"
+                  className="text-[rgb(255,69,58)] hover:text-[rgb(215,45,45)] font-medium transition-colors opacity-0 group-hover:opacity-100"
                 >
                   Delete
                 </button>
@@ -202,10 +203,10 @@ const SaveLoadForm = ({ onSave, savedProperties, onLoad, onDelete }) => {
         </div>
       )}
 
-      <div className="mt-6 pt-6 border-t">
+      <div className="mt-6 pt-6 border-t border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)]">
         <button
           onClick={() => setIsReportModalOpen(true)}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] bg-[rgb(0,122,255)]/10 dark:bg-[rgb(10,132,255)]/10 hover:bg-[rgb(0,122,255)]/20 dark:hover:bg-[rgb(10,132,255)]/20 rounded-xl transition-colors"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -225,16 +226,16 @@ const SaveLoadForm = ({ onSave, savedProperties, onLoad, onDelete }) => {
 };
 
 const PropertySettings = ({ settings, onChange }) => {
-  const inputWithDollarSign = "pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-right";
-  const dollarSignStyle = "absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none select-none font-medium";
+  const inputWithDollarSign = "pl-12 pr-4 py-3 bg-white dark:bg-[rgb(44,44,46)] border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[rgb(0,122,255)] dark:focus:ring-[rgb(10,132,255)] transition-all text-right text-[rgb(0,0,0)] dark:text-white";
+  const dollarSignStyle = "absolute left-4 top-1/2 -translate-y-1/2 text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] pointer-events-none select-none font-medium";
 
   return (
-    <div className="bg-white/80 backdrop-blur-lg p-8 rounded-2xl shadow-sm border border-gray-100 mb-6">
-      <h2 className="text-2xl font-medium mb-6">Property Settings</h2>
+    <div className="bg-white/80 dark:bg-[rgb(28,28,30)]/80 backdrop-blur-lg p-8 rounded-2xl shadow-sm border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] mb-6">
+      <h2 className="text-2xl font-medium mb-6 text-[rgb(0,0,0)] dark:text-white">Property Settings</h2>
       <div className="grid md:grid-cols-2 gap-8">
         <div className="space-y-6">
           <div>
-            <label className="block mb-2 font-medium">Monthly Mortgage Payment</label>
+            <label className="block mb-2 font-medium text-[rgb(0,0,0)] dark:text-white">Monthly Mortgage Payment</label>
             <div className="relative">
               <span className={dollarSignStyle}>$</span>
               <input
@@ -247,7 +248,7 @@ const PropertySettings = ({ settings, onChange }) => {
           </div>
           
           <div>
-            <label className="block mb-2 font-medium">Property Insurance</label>
+            <label className="block mb-2 font-medium text-[rgb(0,0,0)] dark:text-white">Property Insurance</label>
             <div className="relative">
               <span className={dollarSignStyle}>$</span>
               <input
@@ -262,15 +263,15 @@ const PropertySettings = ({ settings, onChange }) => {
 
         <div className="space-y-6">
           <div>
-            <h3 className="font-medium mb-4">Utility Configuration</h3>
-            <label className="flex items-center p-4 bg-gray-50/80 backdrop-blur-sm rounded-xl cursor-pointer group transition-colors hover:bg-gray-100/80">
+            <h3 className="font-medium mb-4 text-[rgb(0,0,0)] dark:text-white">Utility Configuration</h3>
+            <label className="flex items-center p-4 bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm rounded-xl cursor-pointer group transition-colors hover:bg-[rgb(229,229,234)]/80 dark:hover:bg-[rgb(58,58,60)]/80">
               <input
                 type="checkbox"
                 checked={settings.singleWaterMeter}
                 onChange={(e) => onChange('singleWaterMeter', e.target.checked)}
-                className="w-5 h-5 rounded border-gray-300 text-blue-500 focus:ring-blue-500 transition-colors"
+                className="w-5 h-5 rounded border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] focus:ring-[rgb(0,122,255)] dark:focus:ring-[rgb(10,132,255)] transition-colors"
               />
-              <span className="ml-3 font-medium">Single Water Meter for Property</span>
+              <span className="ml-3 font-medium text-[rgb(0,0,0)] dark:text-white">Single Water Meter for Property</span>
             </label>
             {settings.singleWaterMeter && (
               <div className="mt-4">
@@ -289,15 +290,15 @@ const PropertySettings = ({ settings, onChange }) => {
           </div>
 
           <div>
-            <h3 className="font-medium mb-4">Landlord Paid Items</h3>
-            <label className="flex items-center p-4 bg-gray-50/80 backdrop-blur-sm rounded-xl cursor-pointer group transition-colors hover:bg-gray-100/80">
+            <h3 className="font-medium mb-4 text-[rgb(0,0,0)] dark:text-white">Landlord Paid Items</h3>
+            <label className="flex items-center p-4 bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm rounded-xl cursor-pointer group transition-colors hover:bg-[rgb(229,229,234)]/80 dark:hover:bg-[rgb(58,58,60)]/80">
               <input
                 type="checkbox"
                 checked={settings.landlordPaysTrash}
                 onChange={(e) => onChange('landlordPaysTrash', e.target.checked)}
-                className="w-5 h-5 rounded border-gray-300 text-blue-500 focus:ring-blue-500 transition-colors"
+                className="w-5 h-5 rounded border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] focus:ring-[rgb(0,122,255)] dark:focus:ring-[rgb(10,132,255)] transition-colors"
               />
-              <span className="ml-3 font-medium">Trash Service</span>
+              <span className="ml-3 font-medium text-[rgb(0,0,0)] dark:text-white">Trash Service</span>
             </label>
             {settings.landlordPaysTrash && (
               <div className="mt-4">
@@ -335,12 +336,12 @@ const CustomExpenseForm = ({ expenses, onAdd, onRemove }) => {
     }
   };
 
-  const inputWithDollarSign = "pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-right";
-  const dollarSignStyle = "absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none select-none font-medium";
+  const inputWithDollarSign = "pl-12 pr-4 py-3 bg-white dark:bg-[rgb(44,44,46)] border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[rgb(0,122,255)] dark:focus:ring-[rgb(10,132,255)] transition-all text-right text-[rgb(0,0,0)] dark:text-white";
+  const dollarSignStyle = "absolute left-4 top-1/2 -translate-y-1/2 text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] pointer-events-none select-none font-medium";
 
   return (
-    <div className="bg-white/80 backdrop-blur-lg p-8 rounded-2xl shadow-sm border border-gray-100 mb-6">
-      <h2 className="text-2xl font-medium mb-6">Custom Expenses</h2>
+    <div className="bg-white/80 dark:bg-[rgb(28,28,30)]/80 backdrop-blur-lg p-8 rounded-2xl shadow-sm border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] mb-6">
+      <h2 className="text-2xl font-medium mb-6 text-[rgb(0,0,0)] dark:text-white">Custom Expenses</h2>
       
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 mb-6">
         <input
@@ -348,7 +349,7 @@ const CustomExpenseForm = ({ expenses, onAdd, onRemove }) => {
           placeholder="Expense Name"
           value={newExpense.name}
           onChange={(e) => setNewExpense({...newExpense, name: e.target.value})}
-          className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          className="flex-1 px-4 py-3 bg-white dark:bg-[rgb(44,44,46)] border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[rgb(0,122,255)] dark:focus:ring-[rgb(10,132,255)] transition-all text-[rgb(0,0,0)] dark:text-white placeholder-[rgb(99,99,102)] dark:placeholder-[rgb(174,174,178)]"
         />
         <div className="flex gap-3">
           <div className="relative">
@@ -364,7 +365,7 @@ const CustomExpenseForm = ({ expenses, onAdd, onRemove }) => {
           <select
             value={newExpense.frequency}
             onChange={(e) => setNewExpense({...newExpense, frequency: e.target.value})}
-            className="w-32 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all appearance-none bg-right bg-no-repeat"
+            className="w-32 px-4 py-3 bg-white dark:bg-[rgb(44,44,46)] border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[rgb(0,122,255)] dark:focus:ring-[rgb(10,132,255)] transition-all appearance-none bg-right bg-no-repeat text-[rgb(0,0,0)] dark:text-white"
             style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E\")", backgroundPosition: "right 1rem center", backgroundSize: "1.5em 1.5em" }}
           >
             <option value="monthly">Monthly</option>
@@ -372,7 +373,7 @@ const CustomExpenseForm = ({ expenses, onAdd, onRemove }) => {
           </select>
           <button 
             type="submit"
-            className="px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors font-medium"
+            className="px-6 py-3 bg-[rgb(0,122,255)] dark:bg-[rgb(10,132,255)] hover:bg-[rgb(0,122,255)]/90 dark:hover:bg-[rgb(10,132,255)]/90 text-white rounded-xl transition-colors font-medium"
           >
             Add
           </button>
@@ -381,13 +382,13 @@ const CustomExpenseForm = ({ expenses, onAdd, onRemove }) => {
 
       <div className="space-y-3">
         {expenses.map((expense, index) => (
-          <div key={index} className="flex items-center justify-between p-4 bg-gray-50/80 backdrop-blur-sm rounded-xl group">
-            <span className="font-medium">{expense.name}</span>
+          <div key={index} className="flex items-center justify-between p-4 bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm rounded-xl group">
+            <span className="font-medium text-[rgb(0,0,0)] dark:text-white">{expense.name}</span>
             <div className="flex items-center gap-4">
-              <span className="text-gray-600">${expense.amount} ({expense.frequency})</span>
+              <span className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">${expense.amount} ({expense.frequency})</span>
               <button
                 onClick={() => onRemove(index)}
-                className="text-red-500 hover:text-red-700 transition-colors opacity-0 group-hover:opacity-100"
+                className="text-[rgb(255,69,58)] hover:text-[rgb(215,45,45)] transition-colors opacity-0 group-hover:opacity-100"
               >
                 Remove
               </button>
@@ -402,19 +403,19 @@ const CustomExpenseForm = ({ expenses, onAdd, onRemove }) => {
 const UnitForm = ({ unit, index, onChange, onRemove }) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
-  const inputWithDollarSign = "pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-right";
-  const dollarSignStyle = "absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none select-none font-medium";
+  const inputWithDollarSign = "pl-12 pr-4 py-3 bg-white dark:bg-[rgb(44,44,46)] border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[rgb(0,122,255)] dark:focus:ring-[rgb(10,132,255)] transition-all text-right text-[rgb(0,0,0)] dark:text-white";
+  const dollarSignStyle = "absolute left-4 top-1/2 -translate-y-1/2 text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] pointer-events-none select-none font-medium";
 
   return (
-    <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 mb-6">
+    <div className="bg-white/80 dark:bg-[rgb(28,28,30)]/80 backdrop-blur-lg rounded-2xl shadow-sm border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] overflow-hidden transition-all duration-300 mb-6">
       <div 
-        className="p-6 cursor-pointer hover:bg-gray-50/80 transition-colors"
+        className="p-6 cursor-pointer hover:bg-[rgb(242,242,247)]/80 dark:hover:bg-[rgb(44,44,46)]/80 transition-colors"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <h3 className="text-2xl font-medium">Unit {index + 1}</h3>
-            <span className="text-gray-500 text-lg">
+            <h3 className="text-2xl font-medium text-[rgb(0,0,0)] dark:text-white">Unit {index + 1}</h3>
+            <span className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] text-lg">
               ${unit.rent}/month
             </span>
           </div>
@@ -425,7 +426,7 @@ const UnitForm = ({ unit, index, onChange, onRemove }) => {
                   e.stopPropagation();
                   onRemove();
                 }}
-                className="text-red-500 hover:text-red-700 transition-colors p-2"
+                className="text-[rgb(255,69,58)] hover:text-[rgb(215,45,45)] transition-colors p-2"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -433,7 +434,7 @@ const UnitForm = ({ unit, index, onChange, onRemove }) => {
               </button>
             )}
             <svg 
-              className={`w-6 h-6 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+              className={`w-6 h-6 transform transition-transform text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] ${isExpanded ? 'rotate-180' : ''}`}
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 24 24"
@@ -445,9 +446,9 @@ const UnitForm = ({ unit, index, onChange, onRemove }) => {
       </div>
 
       <div className={`overflow-hidden transition-all duration-300 ${isExpanded ? 'max-h-[1000px]' : 'max-h-0'}`}>
-        <div className="p-6 border-t space-y-8">
-          <div className="bg-gray-50/80 backdrop-blur-sm p-6 rounded-xl">
-            <label className="block mb-3 font-medium">Monthly Rent</label>
+        <div className="p-6 border-t border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] space-y-8">
+          <div className="bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm p-6 rounded-xl">
+            <label className="block mb-3 font-medium text-[rgb(0,0,0)] dark:text-white">Monthly Rent</label>
             <div className="relative">
               <span className={dollarSignStyle}>$</span>
               <input
@@ -463,17 +464,17 @@ const UnitForm = ({ unit, index, onChange, onRemove }) => {
 
           <div className="grid gap-6">
             {['water', 'gas', 'electric'].map((utility) => (
-              <div key={utility} className="bg-gray-50/80 backdrop-blur-sm p-6 rounded-xl">
+              <div key={utility} className="bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm p-6 rounded-xl">
                 <div className="flex items-center justify-between mb-4">
-                  <label className="font-medium capitalize">{utility} Usage</label>
+                  <label className="font-medium capitalize text-[rgb(0,0,0)] dark:text-white">{utility} Usage</label>
                   <label className="flex items-center">
                     <input
                       type="checkbox"
                       checked={unit[`tenantPays${utility.charAt(0).toUpperCase() + utility.slice(1)}`]}
                       onChange={(e) => onChange(index, `tenantPays${utility.charAt(0).toUpperCase() + utility.slice(1)}`, e.target.checked)}
-                      className="w-5 h-5 rounded border-gray-300 text-blue-500 focus:ring-blue-500 transition-colors"
+                      className="w-5 h-5 rounded border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] focus:ring-[rgb(0,122,255)] dark:focus:ring-[rgb(10,132,255)] transition-colors"
                     />
-                    <span className="ml-3">Tenant Pays</span>
+                    <span className="ml-3 text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">Tenant Pays</span>
                   </label>
                 </div>
                 <div className="relative">
@@ -483,7 +484,7 @@ const UnitForm = ({ unit, index, onChange, onRemove }) => {
                     value={unit[`${utility}Bill`]}
                     onChange={(e) => onChange(index, `${utility}Bill`, e.target.value)}
                     disabled={unit[`tenantPays${utility.charAt(0).toUpperCase() + utility.slice(1)}`]}
-                    className={`w-full ${inputWithDollarSign} disabled:opacity-50 disabled:bg-gray-100`}
+                    className={`w-full ${inputWithDollarSign} disabled:opacity-50 disabled:bg-[rgb(242,242,247)] dark:disabled:bg-[rgb(58,58,60)]`}
                     min="0"
                     placeholder="Monthly Amount"
                   />
@@ -515,174 +516,46 @@ const FutureProjections = ({ monthlyProfit, totalIncome, propertySettings }) => 
   });
 
   return (
-    <div className="bg-white/80 backdrop-blur-lg p-8 rounded-2xl shadow-sm border border-gray-100">
-      <h2 className="text-2xl font-medium mb-6">Future Projections</h2>
+    <div className="bg-white/80 dark:bg-[rgb(28,28,30)]/80 backdrop-blur-lg p-8 rounded-2xl shadow-sm border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)]">
+      <h2 className="text-2xl font-medium mb-6 text-[rgb(0,0,0)] dark:text-white">Future Projections</h2>
       <div className="space-y-6">
-        <div className="text-sm text-gray-600 mb-4">
+        <div className="text-sm text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] mb-4">
           Assuming 3% annual rent increase
         </div>
-        <div className="overflow-hidden rounded-xl border border-gray-200">
+        <div className="overflow-hidden rounded-xl border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)]">
           <table className="w-full">
             <thead>
-              <tr className="bg-gray-50/80">
-                <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Year</th>
-                <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Annual Income</th>
-                <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Annual Profit</th>
+              <tr className="bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80">
+                <th className="py-3 px-4 text-left text-sm font-medium text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">Year</th>
+                <th className="py-3 px-4 text-left text-sm font-medium text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">Annual Income</th>
+                <th className="py-3 px-4 text-left text-sm font-medium text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">Annual Profit</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-[rgb(229,229,234)] dark:divide-[rgb(44,44,46)]">
               {projections.map(({ year, annualIncome, annualProfit }) => (
-                <tr key={year} className="hover:bg-gray-50/50 transition-colors">
-                  <td className="py-3 px-4 text-sm">Year {year}</td>
-                  <td className="py-3 px-4 text-sm">${annualIncome.toFixed(2)}</td>
-                  <td className="py-3 px-4 text-sm text-green-600">${annualProfit.toFixed(2)}</td>
+                <tr key={year} className="hover:bg-[rgb(242,242,247)]/50 dark:hover:bg-[rgb(44,44,46)]/50 transition-colors">
+                  <td className="py-3 px-4 text-sm text-[rgb(0,0,0)] dark:text-white">Year {year}</td>
+                  <td className="py-3 px-4 text-sm text-[rgb(0,0,0)] dark:text-white">${annualIncome.toFixed(2)}</td>
+                  <td className="py-3 px-4 text-sm text-[rgb(48,209,88)]">${annualProfit.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         
-        <div className="mt-6 p-6 bg-gray-50/80 backdrop-blur-sm rounded-xl space-y-4">
-          <h3 className="text-lg font-medium mb-4">ROI Metrics</h3>
+        <div className="mt-6 p-6 bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm rounded-xl space-y-4">
+          <h3 className="text-lg font-medium mb-4 text-[rgb(0,0,0)] dark:text-white">ROI Metrics</h3>
           <div className="space-y-3">
-            <div className="flex justify-between items-center p-3 bg-white/80 rounded-lg">
-              <span className="font-medium">5-Year Total Profit</span>
-              <span className="text-green-600">${projections.reduce((sum, p) => sum + p.annualProfit, 0).toFixed(2)}</span>
+            <div className="flex justify-between items-center p-3 bg-white/80 dark:bg-[rgb(28,28,30)]/80 rounded-lg">
+              <span className="font-medium text-[rgb(0,0,0)] dark:text-white">5-Year Total Profit</span>
+              <span className="text-[rgb(48,209,88)]">${projections.reduce((sum, p) => sum + p.annualProfit, 0).toFixed(2)}</span>
             </div>
             {propertySettings.mortgagePayment > 0 && (
-              <div className="flex justify-between items-center p-3 bg-white/80 rounded-lg">
-                <span className="font-medium">Monthly Mortgage Coverage</span>
-                <span className="text-blue-600">{((totalIncome / propertySettings.mortgagePayment) * 100).toFixed(1)}%</span>
+              <div className="flex justify-between items-center p-3 bg-white/80 dark:bg-[rgb(28,28,30)]/80 rounded-lg">
+                <span className="font-medium text-[rgb(0,0,0)] dark:text-white">Monthly Mortgage Coverage</span>
+                <span className="text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)]">{((totalIncome / propertySettings.mortgagePayment) * 100).toFixed(1)}%</span>
               </div>
             )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const MultiPropertyProjections = ({ savedProperties, currentProperty }) => {
-  const years = 5;
-  const annualRentIncrease = 0.03; // 3% yearly increase
-
-  // Calculate monthly profit for a property
-  const calculatePropertyProfit = (property) => {
-    const settings = property.data.propertySettings;
-    const expenses = property.data.customExpenses;
-    const units = property.data.units;
-
-    // Calculate total income
-    const totalIncome = units.reduce((sum, unit) => sum + unit.rent, 0);
-
-    // Calculate expenses
-    const globalExpenses = settings.mortgagePayment + 
-                         settings.propertyInsurance +
-                         (settings.landlordPaysTrash ? settings.trashCost : 0);
-
-    const customExpensesTotal = expenses.reduce((total, expense) => {
-      return total + (expense.frequency === 'yearly' ? expense.amount / 12 : expense.amount);
-    }, 0);
-
-    const utilityExpenses = units.reduce((acc, unit) => {
-      const waterCost = settings.singleWaterMeter 
-        ? settings.totalWaterBill / units.length 
-        : (!unit.tenantPaysWater ? unit.waterBill : 0);
-
-      return acc + waterCost +
-        (!unit.tenantPaysGas ? unit.gasBill : 0) +
-        (!unit.tenantPaysElectric ? unit.electricBill : 0);
-    }, 0);
-
-    const totalExpenses = globalExpenses + customExpensesTotal + utilityExpenses;
-    return totalIncome - totalExpenses;
-  };
-
-  // Combine current property with saved properties
-  const allProperties = currentProperty ? 
-    [{ name: 'Current Property (Unsaved)', data: currentProperty }, ...savedProperties] : 
-    savedProperties;
-
-  // Calculate projections for all properties
-  const projections = Array.from({ length: years }, (_, year) => {
-    const yearNumber = year + 1;
-    const rentMultiplier = Math.pow(1 + annualRentIncrease, yearNumber);
-    
-    const propertyProfits = allProperties.map(property => {
-      const monthlyProfit = calculatePropertyProfit(property);
-      const yearlyProfit = monthlyProfit * 12 * rentMultiplier;
-      return {
-        name: property.name,
-        profit: yearlyProfit
-      };
-    });
-
-    return {
-      year: yearNumber,
-      properties: propertyProfits,
-      totalProfit: propertyProfits.reduce((sum, p) => sum + p.profit, 0)
-    };
-  });
-
-  return (
-    <div className="bg-white/80 backdrop-blur-lg p-8 rounded-2xl shadow-sm border border-gray-100">
-      <h2 className="text-2xl font-medium mb-6">Multi-Property Projections</h2>
-      <div className="space-y-6">
-        <div className="text-sm text-gray-600 mb-4">
-          Combined profit projections for all properties (3% annual increase)
-        </div>
-
-        <div className="overflow-hidden rounded-xl border border-gray-200">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50/80">
-                <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Year</th>
-                <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Property Breakdown</th>
-                <th className="py-3 px-4 text-right text-sm font-medium text-gray-600">Total Annual Profit</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {projections.map(({ year, properties, totalProfit }) => (
-                <tr key={year} className="hover:bg-gray-50/50 transition-colors">
-                  <td className="py-3 px-4 text-sm">Year {year}</td>
-                  <td className="py-3 px-4">
-                    <div className="space-y-1">
-                      {properties.map((property, index) => (
-                        <div key={index} className="flex justify-between text-sm">
-                          <span className="text-gray-600">{property.name}</span>
-                          <span className="text-green-600">${property.profit.toFixed(2)}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="py-3 px-4 text-right text-lg font-medium text-green-600">
-                    ${totalProfit.toFixed(2)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="mt-6 p-6 bg-gray-50/80 backdrop-blur-sm rounded-xl space-y-4">
-          <h3 className="text-lg font-medium mb-4">Portfolio Summary</h3>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center p-3 bg-white/80 rounded-lg">
-              <span className="font-medium">Total Properties</span>
-              <span className="text-blue-600">{allProperties.length}</span>
-            </div>
-            <div className="flex justify-between items-center p-3 bg-white/80 rounded-lg">
-              <span className="font-medium">5-Year Total Portfolio Profit</span>
-              <span className="text-green-600">
-                ${projections.reduce((sum, p) => sum + p.totalProfit, 0).toFixed(2)}
-              </span>
-            </div>
-            <div className="flex justify-between items-center p-3 bg-white/80 rounded-lg">
-              <span className="font-medium">Average Annual Portfolio Profit</span>
-              <span className="text-green-600">
-                ${(projections.reduce((sum, p) => sum + p.totalProfit, 0) / years).toFixed(2)}
-              </span>
-            </div>
           </div>
         </div>
       </div>
@@ -820,33 +693,33 @@ const ItemizedSummary = ({ units, propertySettings, customExpenses }) => {
     <div className="space-y-4 print:space-y-2 print:text-sm">
       {/* Income Breakdown */}
       <div>
-        <h3 className="text-lg font-medium mb-2 print:text-base print:mb-1">Monthly Income</h3>
+        <h3 className="text-lg font-medium mb-2 print:text-base print:mb-1 text-[rgb(0,0,0)] dark:text-white">Monthly Income</h3>
         <div className="space-y-1">
           {incomeBreakdown.map((item, index) => (
-            <div key={index} className="flex justify-between text-sm p-2 print:p-1 bg-gray-50/80 backdrop-blur-sm rounded-lg print:bg-transparent print:text-xs">
-              <span className="font-medium">{item.name}</span>
-              <span>${item.amount.toFixed(2)}</span>
+            <div key={index} className="flex justify-between text-sm p-2 print:p-1 bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm rounded-lg print:bg-transparent print:text-xs">
+              <span className="font-medium text-[rgb(0,0,0)] dark:text-white">{item.name}</span>
+              <span className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">${item.amount.toFixed(2)}</span>
             </div>
           ))}
-          <div className="flex justify-between font-medium text-base print:text-sm p-2 print:p-1 bg-blue-50/80 backdrop-blur-sm rounded-lg print:bg-transparent mt-2 print:mt-1">
-            <span>Total Income</span>
-            <span>${totalIncome.toFixed(2)}</span>
+          <div className="flex justify-between font-medium text-base print:text-sm p-2 print:p-1 bg-[rgb(0,122,255)]/10 dark:bg-[rgb(10,132,255)]/10 backdrop-blur-sm rounded-lg print:bg-transparent mt-2 print:mt-1">
+            <span className="text-[rgb(0,0,0)] dark:text-white">Total Income</span>
+            <span className="text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)]">${totalIncome.toFixed(2)}</span>
           </div>
         </div>
       </div>
 
       {/* Expenses Breakdown */}
       <div>
-        <h3 className="text-lg font-medium mb-2 print:text-base print:mb-1">Monthly Expenses</h3>
+        <h3 className="text-lg font-medium mb-2 print:text-base print:mb-1 text-[rgb(0,0,0)] dark:text-white">Monthly Expenses</h3>
         <div className="space-y-3 print:space-y-2">
           {/* Fixed Expenses */}
           {fixedExpenses.length > 0 && (
             <div className="space-y-1">
-              <h4 className="text-sm text-gray-600 mb-1 print:text-xs">Fixed Expenses</h4>
+              <h4 className="text-sm text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] mb-1 print:text-xs">Fixed Expenses</h4>
               {fixedExpenses.map((item, index) => (
-                <div key={index} className="flex justify-between text-sm p-2 print:p-1 bg-gray-50/80 backdrop-blur-sm rounded-lg print:bg-transparent print:text-xs">
-                  <span className="font-medium">{item.name}</span>
-                  <span>${item.amount.toFixed(2)}</span>
+                <div key={index} className="flex justify-between text-sm p-2 print:p-1 bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm rounded-lg print:bg-transparent print:text-xs">
+                  <span className="font-medium text-[rgb(0,0,0)] dark:text-white">{item.name}</span>
+                  <span className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">${item.amount.toFixed(2)}</span>
                 </div>
               ))}
             </div>
@@ -855,16 +728,16 @@ const ItemizedSummary = ({ units, propertySettings, customExpenses }) => {
           {/* Utility Expenses */}
           {utilityExpenses.length > 0 && (
             <div className="space-y-1">
-              <h4 className="text-sm text-gray-600 mb-1 print:text-xs">Utilities</h4>
+              <h4 className="text-sm text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] mb-1 print:text-xs">Utilities</h4>
               {utilityExpenses.map((item, index) => (
-                <div key={index} className="flex justify-between text-sm p-2 print:p-1 bg-gray-50/80 backdrop-blur-sm rounded-lg print:bg-transparent print:text-xs">
-                  <span className="flex items-center gap-2 font-medium">
+                <div key={index} className="flex justify-between text-sm p-2 print:p-1 bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm rounded-lg print:bg-transparent print:text-xs">
+                  <span className="flex items-center gap-2 font-medium text-[rgb(0,0,0)] dark:text-white">
                     {item.name}
                     {item.note && (
-                      <span className="text-gray-500 text-xs print:text-[10px] font-normal">{item.note}</span>
+                      <span className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] text-xs print:text-[10px] font-normal">{item.note}</span>
                     )}
                   </span>
-                  <span>${item.amount.toFixed(2)}</span>
+                  <span className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">${item.amount.toFixed(2)}</span>
                 </div>
               ))}
             </div>
@@ -873,36 +746,36 @@ const ItemizedSummary = ({ units, propertySettings, customExpenses }) => {
           {/* Custom Expenses */}
           {formattedCustomExpenses.length > 0 && (
             <div className="space-y-1">
-              <h4 className="text-sm text-gray-600 mb-1 print:text-xs">Additional Expenses</h4>
+              <h4 className="text-sm text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] mb-1 print:text-xs">Additional Expenses</h4>
               {formattedCustomExpenses.map((item, index) => (
-                <div key={index} className="flex justify-between text-sm p-2 print:p-1 bg-gray-50/80 backdrop-blur-sm rounded-lg print:bg-transparent print:text-xs">
-                  <span className="font-medium">{item.name} <span className="text-gray-500">({item.frequency})</span></span>
-                  <span>${item.amount.toFixed(2)}</span>
+                <div key={index} className="flex justify-between text-sm p-2 print:p-1 bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm rounded-lg print:bg-transparent print:text-xs">
+                  <span className="font-medium text-[rgb(0,0,0)] dark:text-white">{item.name} <span className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">({item.frequency})</span></span>
+                  <span className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">${item.amount.toFixed(2)}</span>
                 </div>
               ))}
             </div>
           )}
 
-          <div className="flex justify-between font-medium text-base print:text-sm p-2 print:p-1 bg-red-50/80 backdrop-blur-sm rounded-lg print:bg-transparent">
-            <span>Total Expenses</span>
-            <span>${totalExpenses.toFixed(2)}</span>
+          <div className="flex justify-between font-medium text-base print:text-sm p-2 print:p-1 bg-[rgb(255,69,58)]/10 dark:bg-[rgb(255,69,58)]/10 backdrop-blur-sm rounded-lg print:bg-transparent">
+            <span className="text-[rgb(0,0,0)] dark:text-white">Total Expenses</span>
+            <span className="text-[rgb(255,69,58)]">${totalExpenses.toFixed(2)}</span>
           </div>
         </div>
       </div>
 
       {/* Net Profit */}
-      <div className="border-t pt-2 print:pt-1">
+      <div className="border-t border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] pt-2 print:pt-1">
         <div className="space-y-2 print:space-y-1">
-          <div className="flex justify-between items-center p-2 print:p-1 bg-gray-900/5 backdrop-blur-lg rounded-lg print:bg-transparent">
-            <span className="text-base print:text-sm font-medium">Monthly Net Profit</span>
-            <span className={`text-base print:text-sm font-medium ${totalIncome - totalExpenses >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              ${(totalIncome - totalExpenses).toFixed(2)}
+          <div className="flex justify-between items-center p-2 print:p-1 bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm rounded-lg print:bg-transparent">
+            <span className="text-base print:text-sm font-medium text-[rgb(0,0,0)] dark:text-white">Monthly Net Profit</span>
+            <span className={`text-base print:text-sm font-medium ${totalIncome - totalExpenses >= 0 ? 'text-[rgb(48,209,88)]' : 'text-[rgb(255,69,58)]'}`}>
+              ${Math.abs(totalIncome - totalExpenses).toFixed(2)}
             </span>
           </div>
-          <div className="flex justify-between items-center p-2 print:p-1 bg-gray-900/5 backdrop-blur-lg rounded-lg print:bg-transparent">
-            <span className="text-base print:text-sm font-medium">Annual Net Profit</span>
-            <span className={`text-base print:text-sm font-medium ${totalIncome - totalExpenses >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              ${((totalIncome - totalExpenses) * 12).toFixed(2)}
+          <div className="flex justify-between items-center p-2 print:p-1 bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 backdrop-blur-sm rounded-lg print:bg-transparent">
+            <span className="text-base print:text-sm font-medium text-[rgb(0,0,0)] dark:text-white">Annual Net Profit</span>
+            <span className={`text-base print:text-sm font-medium ${totalIncome - totalExpenses >= 0 ? 'text-[rgb(48,209,88)]' : 'text-[rgb(255,69,58)]'}`}>
+              ${Math.abs((totalIncome - totalExpenses) * 12).toFixed(2)}
             </span>
           </div>
         </div>
@@ -1220,11 +1093,11 @@ export default function RentalPropertyROI() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 pt-20 pb-24 bg-gradient-to-b from-gray-50 to-white min-h-screen">
+    <div className="container mx-auto px-4 py-8 pt-20 pb-24 bg-gradient-to-b from-[rgb(242,242,247)] to-white dark:from-[rgb(28,28,30)] dark:to-black min-h-screen text-[rgb(0,0,0)] dark:text-white">
       {/* Print Header - Only visible when printing */}
       <div className="hidden print:block print-header">
         <h1 className="text-3xl font-medium mb-2">Rental Property ROI Analysis</h1>
-        <p className="text-sm text-gray-500">Generated on {new Date().toLocaleDateString()}</p>
+        <p className="text-sm text-[rgb(99,99,102)]">Generated on {new Date().toLocaleDateString()}</p>
         <hr className="my-4" />
       </div>
 
@@ -1234,20 +1107,20 @@ export default function RentalPropertyROI() {
       </h1>
 
       {/* Quick Instructions */}
-      <div className="bg-blue-50/80 backdrop-blur-lg p-6 rounded-2xl mb-8 print:hidden">
+      <div className="bg-[rgb(0,122,255)]/10 dark:bg-[rgb(10,132,255)]/10 backdrop-blur-lg p-6 rounded-2xl mb-8 print:hidden">
         <h2 className="text-lg font-medium mb-3">Quick Start Guide</h2>
-        <div className="flex gap-8">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-8">
           <div className="flex items-start gap-3">
-            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-600 font-medium text-sm">1</span>
-            <p className="text-gray-600">Enter your property settings and mortgage details</p>
+            <span className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-[rgb(0,122,255)]/20 dark:bg-[rgb(10,132,255)]/20 text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] font-medium text-sm">1</span>
+            <p className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] text-sm md:text-base">Enter your property settings and mortgage details</p>
           </div>
           <div className="flex items-start gap-3">
-            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-600 font-medium text-sm">2</span>
-            <p className="text-gray-600">Add any recurring expenses specific to your property</p>
+            <span className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-[rgb(0,122,255)]/20 dark:bg-[rgb(10,132,255)]/20 text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] font-medium text-sm">2</span>
+            <p className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] text-sm md:text-base">Add any recurring expenses specific to your property</p>
           </div>
           <div className="flex items-start gap-3">
-            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-600 font-medium text-sm">3</span>
-            <p className="text-gray-600">Input rental unit details and utility configurations</p>
+            <span className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-[rgb(0,122,255)]/20 dark:bg-[rgb(10,132,255)]/20 text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] font-medium text-sm">3</span>
+            <p className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] text-sm md:text-base">Input rental unit details and utility configurations</p>
           </div>
         </div>
       </div>
@@ -1294,21 +1167,27 @@ export default function RentalPropertyROI() {
                 key={index}
                 unit={unit}
                 index={index}
-                onChange={handleUnitChange}
+                onChange={(field, value) => handleUnitChange(index, field, value)}
                 onRemove={() => handleRemoveUnit(index)}
               />
             ))}
             
-            <button onClick={handleAddUnit} className="w-full p-3 sm:p-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
-              + Add Another Unit
+            <button
+              onClick={handleAddUnit}
+              className="w-full mb-6 px-6 py-3 bg-[rgb(0,122,255)]/10 dark:bg-[rgb(10,132,255)]/10 text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] rounded-xl hover:bg-[rgb(0,122,255)]/20 dark:hover:bg-[rgb(10,132,255)]/20 transition-colors font-medium flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Add Another Unit
             </button>
           </div>
         </div>
 
         {/* Right column components */}
         <div className="space-y-4 print:space-y-2 page-break">
-          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4 sm:mb-6">Summary</h2>
+          <div className="bg-white/80 dark:bg-[rgb(28,28,30)]/80 p-4 sm:p-6 rounded-2xl shadow-sm border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)]">
+            <h2 className="text-xl font-semibold mb-4 sm:mb-6 text-[rgb(0,0,0)] dark:text-white">Summary</h2>
             <div className="space-y-3 sm:space-y-4">
               <ItemizedSummary
                 units={units}
@@ -1323,16 +1202,35 @@ export default function RentalPropertyROI() {
             totalIncome={totalIncome}
             propertySettings={propertySettings}
           />
+        </div>
+      </div>
 
-          {/* Save/Load form - hidden in print */}
-          <div className="print:hidden">
-            <SaveLoadForm
-              onSave={handleSaveProperty}
-              savedProperties={savedProperties}
-              onLoad={handleLoadProperty}
-              onDelete={handleDeleteProperty}
-            />
+      {/* Save/Load Section - Moved below the calculator */}
+      <div className="mt-12 mb-16 max-w-4xl mx-auto print:hidden">
+        <SaveLoadForm
+          onSave={handleSaveProperty}
+          savedProperties={savedProperties}
+          onLoad={handleLoadProperty}
+          onDelete={handleDeleteProperty}
+        />
+      </div>
+
+      {/* VIP Signup Section */}
+      <div className="max-w-4xl mx-auto my-16 px-4">
+        <div className="bg-gradient-to-br from-[rgb(28,28,30)] to-black rounded-3xl p-8 border border-[rgb(44,44,46)]">
+          <h2 className="text-4xl font-bold text-center mb-3 bg-gradient-to-r from-[rgb(0,122,255)] to-[rgb(94,92,230)] dark:from-[rgb(10,132,255)] dark:to-[rgb(94,92,230)] bg-clip-text text-transparent">What Color is Your Portfolio?</h2>
+          <p className="text-[rgb(174,174,178)] text-center text-lg mb-8">
+            Most people live in the matrix of mediocre returns. They calculate basic numbers and accept average results.
+            <span className="block mt-4 font-medium text-white">But you're different. You seek the truth about real wealth creation.</span>
+          </p>
+          <div className="max-w-2xl mx-auto mb-8">
+            <div className="text-center space-y-4">
+              <p className="text-xl font-medium text-[rgb(10,132,255)]">The top 1% of real estate investors know something you don't.</p>
+              <p className="text-[rgb(174,174,178)]">Join our exclusive community to discover what they're hiding from the masses.</p>
+            </div>
           </div>
+          <VIPSignup />
+          <p className="text-center text-sm text-[rgb(174,174,178)] mt-6">Only for those serious about escaping the matrix.</p>
         </div>
       </div>
 
@@ -1428,65 +1326,65 @@ export default function RentalPropertyROI() {
       </div>
 
       {/* Sticky Footer Summary */}
-      <div className={`fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t shadow-lg transform transition-transform duration-300 ease-in-out z-50 print:hidden ${showStickySummary ? 'translate-y-0' : 'translate-y-full'}`}>
+      <div className={`fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-[rgb(28,28,30)]/80 backdrop-blur-lg border-t border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] shadow-lg transform transition-transform duration-300 ease-in-out z-50 print:hidden overflow-x-auto ${showStickySummary ? 'translate-y-0' : 'translate-y-full'}`}>
         <div className="container mx-auto">
-          <div className="flex items-center justify-between px-6 py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-3 sm:px-6 sm:py-4 gap-3">
             {/* Left Section - Key Metrics */}
-            <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            <div className="w-full sm:flex-1 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 text-center sm:text-left">
               <div className="flex flex-col">
-                <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Monthly Income</span>
-                <span className="text-lg font-medium text-gray-900">
+                <span className="text-[10px] sm:text-xs font-medium uppercase tracking-wide text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">Monthly Income</span>
+                <span className="text-base sm:text-lg font-medium text-[rgb(0,0,0)] dark:text-white">
                   ${totalIncome.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
               
               <div className="flex flex-col">
-                <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Monthly Expenses</span>
-                <span className="text-lg font-medium text-gray-900">
+                <span className="text-[10px] sm:text-xs font-medium uppercase tracking-wide text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">Monthly Expenses</span>
+                <span className="text-base sm:text-lg font-medium text-[rgb(0,0,0)] dark:text-white">
                   ${totalExpenses.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
               
               <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Monthly Profit</span>
+                <div className="flex items-center justify-center sm:justify-start gap-1">
+                  <span className="text-[10px] sm:text-xs font-medium uppercase tracking-wide text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">Monthly Profit</span>
                   <div className="relative group">
-                    <svg className="w-4 h-4 text-gray-400 cursor-help" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] cursor-help" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                     </svg>
-                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 px-3 py-2 bg-[rgb(28,28,30)] text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                       Total income minus all expenses
                     </div>
                   </div>
                 </div>
-                <span className={`text-lg font-medium ${monthlyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                <span className={`text-base sm:text-lg font-medium ${monthlyProfit >= 0 ? 'text-[rgb(48,209,88)]' : 'text-[rgb(255,69,58)]'}`}>
                   ${Math.abs(monthlyProfit).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
               
               <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Annual ROI</span>
+                <div className="flex items-center justify-center sm:justify-start gap-1">
+                  <span className="text-[10px] sm:text-xs font-medium uppercase tracking-wide text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">Annual ROI</span>
                   <div className="relative group">
-                    <svg className="w-4 h-4 text-gray-400 cursor-help" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] cursor-help" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                     </svg>
-                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 px-3 py-2 bg-[rgb(28,28,30)] text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                       Yearly profit projection
                     </div>
                   </div>
                 </div>
-                <span className={`text-lg font-medium ${annualProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                <span className={`text-base sm:text-lg font-medium ${annualProfit >= 0 ? 'text-[rgb(48,209,88)]' : 'text-[rgb(255,69,58)]'}`}>
                   ${Math.abs(annualProfit).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
             </div>
 
             {/* Right Section - Action Buttons */}
-            <div className="flex items-center gap-4 ml-6 pl-6 border-l">
+            <div className="flex items-center gap-4 w-full sm:w-auto sm:ml-6 sm:pl-6 sm:border-l border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)]">
               <button
                 onClick={() => window.print()}
-                className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-gray-700 hover:text-gray-900 bg-gray-100/80 hover:bg-gray-200/80 rounded-xl transition-colors"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] hover:text-[rgb(0,0,0)] dark:hover:text-white bg-[rgb(242,242,247)]/80 dark:bg-[rgb(44,44,46)]/80 hover:bg-[rgb(229,229,234)]/80 dark:hover:bg-[rgb(58,58,60)]/80 rounded-xl transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />

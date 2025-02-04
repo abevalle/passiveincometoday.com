@@ -33,12 +33,12 @@ export default function GuidePurchaseButton({ guideId, showDiscount }) {
       <button
         onClick={handlePurchase}
         disabled={isLoading}
-        className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors w-full md:w-auto text-center disabled:opacity-50"
+        className="inline-block bg-[rgb(48,209,88)] hover:bg-[rgb(48,209,88)]/90 dark:bg-[rgb(48,209,88)] dark:hover:bg-[rgb(48,209,88)]/90 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors w-full md:w-auto text-center disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isLoading ? 'Processing...' : showDiscount ? 'Secure Your Discount Now' : 'Get Started Now'}
       </button>
       {showDiscount && (
-        <p className="text-sm text-gray-300 italic">
+        <p className="text-sm text-[rgb(174,174,178)] italic">
           * Special pricing available for a limited time only
         </p>
       )}

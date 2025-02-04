@@ -53,8 +53,8 @@ export default function VIPSignup() {
 
   return (
     <div className="max-w-xl mx-auto text-center">
-      <h2 className="text-3xl font-bold mb-6">Join Our VIP Community</h2>
-      <p className="text-gray-600 mb-8">
+      <h2 className="text-3xl font-bold mb-6 text-[rgb(0,0,0)] dark:text-white">Join Our VIP Community</h2>
+      <p className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] mb-8">
         Get early access to new tools, exclusive discounts on guides, and insider tips 
         on building sustainable income streams. Our community members save an average 
         of $150 on new releases.
@@ -71,21 +71,21 @@ export default function VIPSignup() {
               }}
               placeholder="Enter your email for VIP access"
               className={`w-full px-4 py-3 rounded-lg border ${
-                error ? 'border-red-500' : 'border-gray-300'
-              } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                error ? 'border-red-500' : 'border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)]'
+              } bg-white dark:bg-[rgb(28,28,30)] text-[rgb(0,0,0)] dark:text-white focus:ring-2 focus:ring-[rgb(0,122,255)] dark:focus:ring-[rgb(10,132,255)] focus:border-transparent`}
               disabled={isLoading}
               aria-invalid={error ? 'true' : 'false'}
               aria-describedby={error ? 'email-error' : undefined}
             />
             {error && (
-              <p id="email-error" className="text-red-500 text-sm mt-1 text-left">
+              <p id="email-error" className="text-red-500 dark:text-red-400 text-sm mt-1 text-left">
                 {error}
               </p>
             )}
           </div>
           <button
             type="submit"
-            className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors ${
+            className={`w-full bg-[rgb(0,122,255)] hover:bg-[rgb(0,64,221)] dark:bg-[rgb(10,132,255)] dark:hover:bg-[rgb(64,156,255)] text-white font-bold py-3 px-4 rounded-lg transition-colors ${
               isLoading ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             disabled={isLoading}
@@ -104,9 +104,9 @@ export default function VIPSignup() {
           </button>
         </form>
       ) : (
-        <div className="bg-green-50 text-green-800 p-6 rounded-lg">
+        <div className="bg-[rgb(242,242,247)] dark:bg-[rgb(44,44,46)] text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] p-6 rounded-lg">
           <p className="font-semibold">You're on the VIP list! 🎉</p>
-          <p className="text-sm mt-2">Watch your inbox for exclusive early access and special offers.</p>
+          <p className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] text-sm mt-2">Watch your inbox for exclusive early access and special offers.</p>
         </div>
       )}
     </div>

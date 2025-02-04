@@ -53,7 +53,7 @@ export default function CountdownTimer() {
 
   return (
     <div 
-      className="inline-flex items-center gap-2 bg-blue-600/30 text-blue-200 px-6 py-2 rounded-full text-sm animate-fade-in"
+      className="inline-flex items-center gap-2 bg-[rgb(0,122,255)]/10 dark:bg-[rgb(10,132,255)]/10 text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] px-6 py-2 rounded-full text-sm animate-fade-in"
       role="timer"
       aria-label="Special pricing countdown timer"
     >
@@ -62,22 +62,22 @@ export default function CountdownTimer() {
       <div className="flex items-center gap-2">
         <div className="flex flex-col items-center">
           <span className="font-mono font-bold">{formatTimeUnit(days)}</span>
-          <span className="text-xs opacity-80">days</span>
+          <span className="text-xs opacity-70">{days === 1 ? 'day' : 'days'}</span>
         </div>
         <span aria-hidden="true">:</span>
         <div className="flex flex-col items-center">
           <span className="font-mono font-bold">{formatTimeUnit(hours)}</span>
-          <span className="text-xs opacity-80">hours</span>
+          <span className="text-xs opacity-70">{hours === 1 ? 'hour' : 'hours'}</span>
         </div>
         <span aria-hidden="true">:</span>
         <div className="flex flex-col items-center">
           <span className="font-mono font-bold">{formatTimeUnit(minutes)}</span>
-          <span className="text-xs opacity-80">mins</span>
+          <span className="text-xs opacity-70">{minutes === 1 ? 'min' : 'mins'}</span>
         </div>
         <span aria-hidden="true">:</span>
         <div className="flex flex-col items-center">
           <span className="font-mono font-bold">{formatTimeUnit(seconds)}</span>
-          <span className="text-xs opacity-80">secs</span>
+          <span className="text-xs opacity-70">{seconds === 1 ? 'sec' : 'secs'}</span>
         </div>
       </div>
     </div>
