@@ -54,12 +54,12 @@ const SaveLoadForm = ({ onSave, savedProperties, onLoad, onDelete }) => {
     onLoad({
       data: {
         propertySettings: {
-          mortgagePayment: 0,
-          propertyInsurance: 0,
+          mortgagePayment: '',
+          propertyInsurance: '',
           singleWaterMeter: false,
-          totalWaterBill: 0,
+          totalWaterBill: '',
           landlordPaysTrash: false,
-          trashCost: 0,
+          trashCost: '',
         },
         customExpenses: [],
         units: [{
@@ -324,15 +324,18 @@ const PropertySettings = ({ settings, onChange }) => {
 const CustomExpenseForm = ({ expenses, onAdd, onRemove }) => {
   const [newExpense, setNewExpense] = useState({
     name: '',
-    amount: 0,
+    amount: '',
     frequency: 'monthly'
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (newExpense.name && newExpense.amount) {
-      onAdd(newExpense);
-      setNewExpense({ name: '', amount: 0, frequency: 'monthly' });
+    if (newExpense.name && newExpense.amount !== '') {
+      onAdd({
+        ...newExpense,
+        amount: Number(newExpense.amount)
+      });
+      setNewExpense({ name: '', amount: '', frequency: 'monthly' });
     }
   };
 
@@ -358,7 +361,7 @@ const CustomExpenseForm = ({ expenses, onAdd, onRemove }) => {
               type="number"
               placeholder="Amount"
               value={newExpense.amount}
-              onChange={(e) => setNewExpense({...newExpense, amount: Number(e.target.value)})}
+              onChange={(e) => setNewExpense({...newExpense, amount: e.target.value})}
               className={`w-32 ${inputWithDollarSign}`}
             />
           </div>
@@ -406,6 +409,10 @@ const UnitForm = ({ unit, index, onChange, onRemove }) => {
   const inputWithDollarSign = "pl-12 pr-4 py-3 bg-white dark:bg-[rgb(44,44,46)] border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[rgb(0,122,255)] dark:focus:ring-[rgb(10,132,255)] transition-all text-right text-[rgb(0,0,0)] dark:text-white";
   const dollarSignStyle = "absolute left-4 top-1/2 -translate-y-1/2 text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] pointer-events-none select-none font-medium";
 
+  const handleInputChange = (field, value) => {
+    onChange(index, field, value);
+  };
+
   return (
     <div className="bg-white/80 dark:bg-[rgb(28,28,30)]/80 backdrop-blur-lg rounded-2xl shadow-sm border border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] overflow-hidden transition-all duration-300 mb-6">
       <div 
@@ -416,7 +423,7 @@ const UnitForm = ({ unit, index, onChange, onRemove }) => {
           <div className="flex items-center gap-4">
             <h3 className="text-2xl font-medium text-[rgb(0,0,0)] dark:text-white">Unit {index + 1}</h3>
             <span className="text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)] text-lg">
-              ${unit.rent}/month
+              ${unit.rent || 0}/month
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -454,7 +461,7 @@ const UnitForm = ({ unit, index, onChange, onRemove }) => {
               <input
                 type="number"
                 value={unit.rent}
-                onChange={(e) => onChange(index, 'rent', e.target.value)}
+                onChange={(e) => handleInputChange('rent', e.target.value)}
                 className={`w-full ${inputWithDollarSign}`}
                 min="0"
                 step="50"
@@ -471,7 +478,7 @@ const UnitForm = ({ unit, index, onChange, onRemove }) => {
                     <input
                       type="checkbox"
                       checked={unit[`tenantPays${utility.charAt(0).toUpperCase() + utility.slice(1)}`]}
-                      onChange={(e) => onChange(index, `tenantPays${utility.charAt(0).toUpperCase() + utility.slice(1)}`, e.target.checked)}
+                      onChange={(e) => handleInputChange(`tenantPays${utility.charAt(0).toUpperCase() + utility.slice(1)}`, e.target.checked)}
                       className="w-5 h-5 rounded border-[rgb(229,229,234)] dark:border-[rgb(44,44,46)] text-[rgb(0,122,255)] dark:text-[rgb(10,132,255)] focus:ring-[rgb(0,122,255)] dark:focus:ring-[rgb(10,132,255)] transition-colors"
                     />
                     <span className="ml-3 text-[rgb(99,99,102)] dark:text-[rgb(174,174,178)]">Tenant Pays</span>
@@ -482,7 +489,7 @@ const UnitForm = ({ unit, index, onChange, onRemove }) => {
                   <input
                     type="number"
                     value={unit[`${utility}Bill`]}
-                    onChange={(e) => onChange(index, `${utility}Bill`, e.target.value)}
+                    onChange={(e) => handleInputChange(`${utility}Bill`, e.target.value)}
                     disabled={unit[`tenantPays${utility.charAt(0).toUpperCase() + utility.slice(1)}`]}
                     className={`w-full ${inputWithDollarSign} disabled:opacity-50 disabled:bg-[rgb(242,242,247)] dark:disabled:bg-[rgb(58,58,60)]`}
                     min="0"
@@ -641,53 +648,62 @@ const PrintUnitSummary = ({ units, propertySettings }) => {
 };
 
 const ItemizedSummary = ({ units, propertySettings, customExpenses }) => {
-  // Calculate monthly income by unit
+  // Calculate monthly income by unit - safely handle empty values
   const incomeBreakdown = units.map((unit, index) => ({
     name: `Unit ${index + 1} Rent`,
-    amount: unit.rent
+    amount: Number(unit.rent) || 0
   }));
 
-  // Calculate utility expenses
+  // Calculate utility expenses - safely handle empty values
   const utilityExpenses = units.reduce((acc, unit, index) => {
     if (propertySettings.singleWaterMeter) {
       // Only add water bill to first unit's display
       if (index === 0) {
         acc.push({
           name: 'Total Water Bill',
-          amount: propertySettings.totalWaterBill,
-          note: `(${units.length} units @ $${(propertySettings.totalWaterBill / units.length).toFixed(2)} each)`
+          amount: Number(propertySettings.totalWaterBill) || 0,
+          note: `(${units.length} units @ $${((Number(propertySettings.totalWaterBill) || 0) / units.length).toFixed(2)} each)`
         });
       }
     } else if (!unit.tenantPaysWater) {
-      acc.push({ name: `Unit ${index + 1} Water`, amount: unit.waterBill });
+      acc.push({ 
+        name: `Unit ${index + 1} Water`, 
+        amount: Number(unit.waterBill) || 0 
+      });
     }
     
     if (!unit.tenantPaysGas) {
-      acc.push({ name: `Unit ${index + 1} Gas`, amount: unit.gasBill });
+      acc.push({ 
+        name: `Unit ${index + 1} Gas`, 
+        amount: Number(unit.gasBill) || 0 
+      });
     }
     if (!unit.tenantPaysElectric) {
-      acc.push({ name: `Unit ${index + 1} Electric`, amount: unit.electricBill });
+      acc.push({ 
+        name: `Unit ${index + 1} Electric`, 
+        amount: Number(unit.electricBill) || 0 
+      });
     }
     return acc;
   }, []);
 
-  // Fixed expenses
+  // Fixed expenses - safely handle empty values
   const fixedExpenses = [
-    { name: 'Mortgage Payment', amount: propertySettings.mortgagePayment },
-    { name: 'Property Insurance', amount: propertySettings.propertyInsurance },
-    ...(propertySettings.landlordPaysTrash ? [{ name: 'Trash Service', amount: propertySettings.trashCost }] : [])
+    { name: 'Mortgage Payment', amount: Number(propertySettings.mortgagePayment) || 0 },
+    { name: 'Property Insurance', amount: Number(propertySettings.propertyInsurance) || 0 },
+    ...(propertySettings.landlordPaysTrash ? [{ name: 'Trash Service', amount: Number(propertySettings.trashCost) || 0 }] : [])
   ];
 
-  // Format custom expenses
-  const formattedCustomExpenses = customExpenses.map(expense => ({
+  // Format custom expenses - safely handle empty values
+  const formattedCustomExpenses = (customExpenses || []).map(expense => ({
     name: expense.name,
-    amount: expense.frequency === 'yearly' ? expense.amount / 12 : expense.amount,
+    amount: expense.frequency === 'yearly' ? (Number(expense.amount) || 0) / 12 : (Number(expense.amount) || 0),
     frequency: expense.frequency
   }));
 
-  const totalIncome = incomeBreakdown.reduce((sum, item) => sum + item.amount, 0);
+  const totalIncome = incomeBreakdown.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
   const totalExpenses = [...utilityExpenses, ...fixedExpenses, ...formattedCustomExpenses]
-    .reduce((sum, item) => sum + item.amount, 0);
+    .reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
 
   return (
     <div className="space-y-4 print:space-y-2 print:text-sm">
@@ -922,21 +938,21 @@ const SelectPropertiesModal = ({ isOpen, onClose, savedProperties, onGenerateRep
 
 export default function RentalPropertyROI() {
   const [propertySettings, setPropertySettings] = useState({
-    mortgagePayment: 0,
-    propertyInsurance: 0,
+    mortgagePayment: '',
+    propertyInsurance: '',
     singleWaterMeter: false,
-    totalWaterBill: 0,
+    totalWaterBill: '',
     landlordPaysTrash: false,
-    trashCost: 0,
+    trashCost: '',
   });
 
   const [customExpenses, setCustomExpenses] = useState([]);
 
   const emptyUnit = {
-    rent: 0,
-    waterBill: 0,
-    gasBill: 0,
-    electricBill: 0,
+    rent: '',
+    waterBill: '',
+    gasBill: '',
+    electricBill: '',
     tenantPaysWater: false,
     tenantPaysGas: false,
     tenantPaysElectric: false,
@@ -947,7 +963,7 @@ export default function RentalPropertyROI() {
   const handleSettingsChange = (field, value) => {
     setPropertySettings(prev => ({
       ...prev,
-      [field]: value
+      [field]: field.startsWith('landlordPays') || field === 'singleWaterMeter' ? value : (value === '' ? '' : Number(value))
     }));
   };
 
@@ -961,10 +977,19 @@ export default function RentalPropertyROI() {
 
   const handleUnitChange = (index, field, value) => {
     const newUnits = [...units];
-    newUnits[index] = {
-      ...newUnits[index],
-      [field]: field.startsWith('tenantPays') ? value : Number(value),
-    };
+    if (field.startsWith('tenantPays')) {
+      newUnits[index] = {
+        ...newUnits[index],
+        [field]: value,
+      };
+    } else {
+      // Allow empty string or convert to number if it's a valid number
+      const numericValue = value === '' ? '' : Number(value);
+      newUnits[index] = {
+        ...newUnits[index],
+        [field]: numericValue,
+      };
+    }
     setUnits(newUnits);
   };
 
@@ -977,30 +1002,30 @@ export default function RentalPropertyROI() {
   };
 
   const calculateTotals = () => {
-    const globalExpenses = propertySettings.mortgagePayment + 
-                         propertySettings.propertyInsurance +
-                         (propertySettings.landlordPaysTrash ? propertySettings.trashCost : 0);
+    const globalExpenses = (propertySettings.mortgagePayment || 0) + 
+                         (propertySettings.propertyInsurance || 0) +
+                         (propertySettings.landlordPaysTrash ? (propertySettings.trashCost || 0) : 0);
 
     const customExpensesTotal = customExpenses.reduce((total, expense) => {
       const monthlyAmount = expense.frequency === 'yearly' 
-        ? expense.amount / 12 
-        : expense.amount;
+        ? (expense.amount || 0) / 12 
+        : (expense.amount || 0);
       return total + monthlyAmount;
     }, 0);
 
     return units.reduce((acc, unit) => {
       const waterCost = propertySettings.singleWaterMeter 
-        ? propertySettings.totalWaterBill / units.length 
-        : (!unit.tenantPaysWater ? unit.waterBill : 0);
+        ? (propertySettings.totalWaterBill || 0) / units.length 
+        : (!unit.tenantPaysWater ? (unit.waterBill || 0) : 0);
 
       const expenses = [
         waterCost,
-        !unit.tenantPaysGas ? unit.gasBill : 0,
-        !unit.tenantPaysElectric ? unit.electricBill : 0,
+        !unit.tenantPaysGas ? (unit.gasBill || 0) : 0,
+        !unit.tenantPaysElectric ? (unit.electricBill || 0) : 0,
       ].reduce((sum, cost) => sum + cost, 0);
 
       return {
-        totalIncome: acc.totalIncome + unit.rent,
+        totalIncome: acc.totalIncome + (Number(unit.rent) || 0),
         totalExpenses: acc.totalExpenses + expenses,
       };
     }, { 

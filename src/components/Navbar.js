@@ -1,20 +1,38 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 
-const MENU_ITEMS = [
+const BASE_MENU_ITEMS = [
   { name: 'Home', path: '/' },
   { name: 'Guides', path: '/guides' },
   { name: 'Resources', path: '/resources' },
 ];
+
+// Sweepstakes item with end date
+const SWEEPSTAKES_ITEM = { 
+  name: '$150 Sweepstakes', 
+  path: 'https://freemoney.passiveincometoday.com', 
+  isExternal: true,
+  expiresOn: new Date('April 30, 2025')
+};
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === '/';
+
+  // Generate menu items based on current date
+  const MENU_ITEMS = useMemo(() => {
+    const now = new Date();
+    const showSweepstakes = now < SWEEPSTAKES_ITEM.expiresOn;
+    
+    return showSweepstakes 
+      ? [...BASE_MENU_ITEMS, SWEEPSTAKES_ITEM]
+      : BASE_MENU_ITEMS;
+  }, []);
 
   const handleScroll = useCallback(() => {
     if (!isHome) {
@@ -89,8 +107,16 @@ export default function Navbar() {
                     : 'text-white'
                 } ${pathname === item.path ? 'font-semibold' : ''}`}
                 aria-current={pathname === item.path ? 'page' : undefined}
+                {...(item.isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 {item.name}
+                {item.isExternal && (
+                  <span className="ml-1 inline-block">
+                    <svg className="w-3 h-3 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </span>
+                )}
                 <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-[rgb(0,122,255)] dark:bg-[rgb(10,132,255)] transition-all group-hover:w-full ${
                   pathname === item.path ? 'w-full' : ''
                 }`} />
@@ -149,8 +175,16 @@ export default function Navbar() {
                     : ''
                 }`}
                 aria-current={pathname === item.path ? 'page' : undefined}
+                {...(item.isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 {item.name}
+                {item.isExternal && (
+                  <span className="ml-1 inline-block text-xs">
+                    <svg className="w-3 h-3 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </span>
+                )}
               </Link>
             ))}
           </div>
